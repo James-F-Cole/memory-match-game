@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Match Game</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Memory Match Game</h1>
+        <div class="game-info" id="game-info">
+            <p>Moves: <span id="moves">0</span></p>
+            <p>Time: <span id="timer">00:00</span></p>
+        </div>
+        <div class="game-board" id="game-board">
+
+        </div>
+        <button id="restart-btn">Restart Game</button>
+    </div>
+
+    <audio id="match-sound" src="assets/audio/match.mp3"></audio>
+    <audio id="mismatch-sound" src="assets/audio/mismatch.mp3"></audio>
+    <audio id="win-sound" src="assets/audio/win.mp3"></audio>
+    <audio id="flip-sound" src="assets/audio/flip.mp3"></audio>
+    <audio id="background-music" src="assets/audio/background.mp3" loop></audio>
+    <audio id="timer-sound" src="assets/audio/timer.mp3"></audio>
+    <audio id="restart-sound" src="assets/audio/restart.mp3"></audio>
+    <audio id="click-sound" src="assets/audio/click.mp3"></audio>
+    <script src="js/script.js"></script>
+</body>
+</html>
