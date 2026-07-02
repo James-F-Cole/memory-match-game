@@ -1,3 +1,5 @@
+let gameStarted = false;
+
 let firstCard = null;
 let secondCard = null;
 
@@ -5,6 +7,12 @@ let lockBoard = false;
 
 let moves = 0;
 const movesDisplay = document.querySelector("#moves");
+
+let seconds = 0;
+let timerInterval = null;
+const timerDisplay = document.querySelector("#timer");
+
+let matchedPairs = 0;
 
 const flipSound = document.querySelector("#flip-sound");
 const matchSound = document.querySelector("#match-sound");
@@ -20,14 +28,14 @@ restartButton.addEventListener("click", restartGame);
 
 const gameBoard = document.querySelector(".game-board");
 let cardArray = [
-    "A", "A",
-    "B", "B",
-    "C", "C",
-    "D", "D",
-    "E", "E",
-    "F", "F",
-    "G", "G",
-    "H", "H"
+    "🍎","🍎",
+    "🚗","🚗",
+    "⚽","⚽",
+    "🎧","🎧",
+    "🐶","🐶",
+    "🌙","🌙",
+    "🎮","🎮",
+    "📱","📱"
 ];
 
 function shuffleCards() {
@@ -41,7 +49,12 @@ function createBoard() {
     for (let i = 0; i < cardArray.length; i++) {
         const card = document.createElement("div");
         card.classList.add("card");
-        card.textContent = "?";
+        card.innerHTML = `
+            <div class="card-inner">
+                <div class="card-front">?</div>
+                <div class="card-back">${cardArray[i]}</div>
+            </div>
+        `;
         card.dataset.value = cardArray[i];
         card.addEventListener("click", flipCard);
         gameBoard.appendChild(card);
@@ -49,12 +62,18 @@ function createBoard() {
 }
 
 function flipCard() {
+    if (!gameStarted) {
+        gameStarted = true;
+        startTimer();
+        // backgroundMusic.play();
+        //timerSound.play();
+    }
     if (lockBoard === true || this === firstCard)
     {
         return;
     }
     const clickedCard = this;
-    clickedCard.textContent = clickedCard.dataset.value;
+    clickedCard.classList.add("flipped");
     // flipSound.play();
     if (firstCard === null) {
         firstCard = clickedCard;
@@ -80,16 +99,23 @@ function checkForMatch() {
 
 function disableMatchedCards() {
     // matchSound.play();
+    matchedPairs++;
+    setTimeout(() => {
+        firstCard.classList.add("matched");
+        secondCard.classList.add("matched");
+        resetTurn();
+    }, 1000);
     firstCard.removeEventListener("click", flipCard);
     secondCard.removeEventListener("click", flipCard);
-    resetTurn();
+    checkForWin();
+    
 }
 
 function unflipCards() {
     // mismatchSound.play();
     setTimeout(() => {
-        firstCard.textContent = "?";
-        secondCard.textContent = "?";
+        firstCard.classList.remove("flipped");
+        secondCard.classList.remove("flipped");
         resetTurn()
     }, 1000)
 }
@@ -101,13 +127,42 @@ function resetTurn() {
 }
 
 function restartGame() {
-    gameBoard.innerHTML = "";
-    moves = 0;
-    movesDisplay.textContent = moves;
-    resetTurn();
-    shuffleCards();
-    createBoard();
     
+        gameBoard.innerHTML = "";
+        moves = 0;
+        movesDisplay.textContent = moves;
+        matchedPairs = 0;
+        seconds = 0;
+        timerDisplay.textContent = "00:00";
+        clearInterval(timerInterval);
+        timerInterval = null;
+        gameStarted = false;
+        resetTurn();
+        shuffleCards();
+        createBoard();
 }
+
+function checkForWin() {
+    if (matchedPairs === cardArray.length / 2) {
+        clearInterval(timerInterval);
+        setTimeout(() => {
+            // winSound.play();
+            alert("You win!");
+        }, 1000);
+    }
+}
+
+function startTimer() {
+    timerInterval = setInterval(() => {
+        seconds++;
+        let minutes = Math.floor(seconds / 60);
+        let remainingSeconds = seconds % 60;
+        timerDisplay.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+        if (seconds % 60 === 0) {
+            // timerSound.play();
+        }
+    }, 1000);
+}
+
 shuffleCards();
 createBoard();
