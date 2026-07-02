@@ -15,6 +15,9 @@ const timerSound = document.querySelector("#timer-sound");
 const restartSound = document.querySelector("#restart-sound");
 const clickSound = document.querySelector("#click-sound");
 
+const restartButton = document.querySelector("#restart-btn");
+restartButton.addEventListener("click", restartGame);
+
 const gameBoard = document.querySelector(".game-board");
 let cardArray = [
     "A", "A",
@@ -95,6 +98,16 @@ function resetTurn() {
     firstCard = null;
     secondCard = null;
     lockBoard = false;
+}
+
+function restartGame() {
+    gameBoard.innerHTML = "";
+    moves = 0;
+    movesDisplay.textContent = moves;
+    resetTurn();
+    shuffleCards();
+    createBoard();
+    
 }
 shuffleCards();
 createBoard();
