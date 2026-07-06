@@ -148,7 +148,7 @@ function checkForWin() {
         setTimeout(() => {
             // winSound.play();
             alert("You win!");
-        }, 1000);
+        }, 1100);
     }
 }
 
