@@ -23,7 +23,7 @@ h1 {
 
 .game-board {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(var(--column), 1fr);
     gap: 10px;
     margin: auto;
     width: 400px;

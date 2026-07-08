@@ -3,12 +3,29 @@
 
 const restartButton = document.querySelector("#restart-btn");
 restartButton.addEventListener("click", restartGame);
+const easyButton = document.querySelector("#easy-btn");
+const mediumButton = document.querySelector("#medium-btn");
+const hardButton = document.querySelector("#hard-btn");
+
+easyButton.addEventListener("click", () => {
+    changeDifficulty(DIFFICULTIES.easy);
+});
+
+mediumButton.addEventListener("click", () => {
+    changeDifficulty(DIFFICULTIES.medium);
+});
+
+hardButton.addEventListener("click", () => {
+    changeDifficulty(DIFFICULTIES.hard);
+});
 
 const GAME = {
     movesDisplay: document.querySelector("#moves"),
     timerDisplay: document.querySelector("#timer"),
+        scoreDisplay: document.querySelector("#score"),
     gameBoard: document.querySelector(".game-board"),
-    cardArray: [ ...CONFIG.symbols, ...CONFIG.symbols ] 
+
+    cardArray: [] 
 }; 
 // ==================================================================================
 // CARD LOGIC
@@ -95,7 +112,7 @@ function restartGame() {
 }
 
 function checkForWin() {
-    if (STATE.matchedPairs === GAME.cardArray.length / 2) {
+    if (STATE.matchedPairs === getTotalPairs()) {
         clearInterval(STATE.timerInterval);
         setTimeout(() => {
             // playSound(AUDIO.win);
