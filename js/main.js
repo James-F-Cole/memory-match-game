@@ -22,10 +22,15 @@ hardButton.addEventListener("click", () => {
 const GAME = {
     movesDisplay: document.querySelector("#moves"),
     timerDisplay: document.querySelector("#timer"),
-        scoreDisplay: document.querySelector("#score"),
+    scoreDisplay: document.querySelector("#score"),
     gameBoard: document.querySelector(".game-board"),
-
-    cardArray: [] 
+    cardArray: [],
+    stats: {
+        matches: 0,
+        misses: 0,
+        totalPairs: getTotalPairs(),
+        score: 0
+    }
 }; 
 // ==================================================================================
 // CARD LOGIC
@@ -68,6 +73,8 @@ function isMatched() {
 function handleMatch() {
     // playSound(AUDIO.match);
     STATE.matchedPairs++;
+    GAME.stats.matches++;
+    calculateScore();
     setTimeout(() => {
         STATE.firstCard.classList.add("matched");
         STATE.secondCard.classList.add("matched");
@@ -81,6 +88,8 @@ function handleMatch() {
 
 function handleMismatch() {
     // playSound(AUDIO.mismatch);
+    GAME.stats.misses++;
+    calculateScore();
     setTimeout(() => {
         STATE.firstCard.classList.remove("flipped");
         STATE.secondCard.classList.remove("flipped");
@@ -103,13 +112,21 @@ function resetTurn() {
     STATE.lockBoard = false;
 }
 
-
+function resetStats() {
+    GAME.stats.matches = 0;
+    GAME.stats.misses = 0;
+    GAME.stats.score = 0;
+}
 function restartGame() {
     // playSound(AUDIO.restart);
+    resetStats()
     resetGameState();
     GAME.gameBoard.innerHTML = "";
+    
     initializeGame();
 }
+// =======================================================================
+// UTILITY FUNCTIONS
 
 function checkForWin() {
     if (STATE.matchedPairs === getTotalPairs()) {
@@ -119,6 +136,27 @@ function checkForWin() {
             alert("You win!");
         }, 1100);
     }
+}
+
+function calculateScore() {
+    const matchPoints = GAME.stats.matches * 100;
+    const missPenalty = GAME.stats.misses * 10;
+
+    GAME.stats.score = Math.max(0, matchPoints - missPenalty);
+
+    GAME.scoreDisplay.textContent = GAME.stats.score;
+}
+
+function calculateAccuracy() {
+    const attempts = GAME.stats.matches + GAME.stats.misses;
+
+    if (attempts === 0) {
+        return 0;
+    }
+
+    return Math.round(
+        (GAME.stats.matches / attempts) * 100
+    );
 }
 // =======================================================================
 // INITIALIZATION

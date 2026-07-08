@@ -8,7 +8,9 @@ function updateTimerDisplay() {
     GAME.timerDisplay.textContent = `${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
 }
 
+
 function resetDisplay() {
     updateMovesDisplay();
+    calculateScore();
     GAME.timerDisplay.textContent = "00:00";
 }
