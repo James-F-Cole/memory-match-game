@@ -6,8 +6,20 @@ const STATE = {
     secondCard: null,
     lockBoard: false,
     seconds: 0,
-    timerInterval: null
+    timerInterval: null,
+
+    playerName: "Anonymous"
 };
+
+function getPlayerName() {
+    const name = prompt(
+        "Enter your name:"
+    );
+
+    STATE.playerName = name && name.trim()
+        ? name.trim()
+        : "Anonymous";
+}
 
 function resetGameState() {
     STATE.gameStarted = false;

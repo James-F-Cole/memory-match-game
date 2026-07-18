@@ -22,7 +22,9 @@ hardButton.addEventListener("click", () => {
 const GAME = {
     movesDisplay: document.querySelector("#moves"),
     timerDisplay: document.querySelector("#timer"),
+    difficultyDisplay: document.querySelector("#difficulty"),
     scoreDisplay: document.querySelector("#score"),
+    bestScoreDisplay: document.querySelector("#best-score"),
     gameBoard: document.querySelector(".game-board"),
     cardArray: [],
     stats: {
@@ -39,8 +41,8 @@ function startGameIfNeeded() {
     if (!STATE.gameStarted) {
         STATE.gameStarted = true;
         startTimer();
-        // playSound(AUDIO.background);
-        // playSound(AUDIO.timer);
+        playSound(AUDIO.background);
+        playSound(AUDIO.timer);
     }
 }
 
@@ -49,7 +51,7 @@ function handleCardSelection(clickedCard) {
         return;
     }
     clickedCard.classList.add("flipped");
-    // playSound(AUDIO.flip);
+    playSound(AUDIO.flip);
     if (!STATE.firstCard) {
         STATE.firstCard = clickedCard;
         return;
@@ -71,11 +73,12 @@ function isMatched() {
 }
 
 function handleMatch() {
-    // playSound(AUDIO.match);
+    
     STATE.matchedPairs++;
-    GAME.stats.matches++;
+    incrementMatches();
     calculateScore();
     setTimeout(() => {
+        playSound(AUDIO.match);
         STATE.firstCard.classList.add("matched");
         STATE.secondCard.classList.add("matched");
         resetTurn();
@@ -87,10 +90,11 @@ function handleMatch() {
 }
 
 function handleMismatch() {
-    // playSound(AUDIO.mismatch);
-    GAME.stats.misses++;
+    
+    incrementMisses();
     calculateScore();
     setTimeout(() => {
+        playSound(AUDIO.mismatch);
         STATE.firstCard.classList.remove("flipped");
         STATE.secondCard.classList.remove("flipped");
         resetTurn();
@@ -112,13 +116,8 @@ function resetTurn() {
     STATE.lockBoard = false;
 }
 
-function resetStats() {
-    GAME.stats.matches = 0;
-    GAME.stats.misses = 0;
-    GAME.stats.score = 0;
-}
 function restartGame() {
-    // playSound(AUDIO.restart);
+    playSound(AUDIO.restart);
     resetStats()
     resetGameState();
     GAME.gameBoard.innerHTML = "";
@@ -129,39 +128,50 @@ function restartGame() {
 // UTILITY FUNCTIONS
 
 function checkForWin() {
+
     if (STATE.matchedPairs === getTotalPairs()) {
         clearInterval(STATE.timerInterval);
+
+        const isNewBest = saveBestScore(CURRENT_DIFFICULTY.id, GAME.stats.score);
+
+        addLeaderboardEntry({
+            player: STATE.playerName,
+            difficulty: CURRENT_DIFFICULTY.id,
+            score: GAME.stats.score,
+            moves: STATE.moves,
+            time: STATE.seconds
+        });
+
+        
+
         setTimeout(() => {
-            // playSound(AUDIO.win);
-            alert("You win!");
-        }, 1100);
+            playSound(AUDIO.win);
+            updateBestScoreDisplay();
+            updateLeaderboard();
+            let message = `
+            🎉Congratulations!
+            Player: ${STATE.playerName}
+            Difficulty: ${CURRENT_DIFFICULTY.text}
+            Moves: ${STATE.moves}
+            Time: ${GAME.timerDisplay.textContent}
+            Score: ${GAME.stats.score}`;
+
+            if (isNewBest) {
+                message += `\n
+                🏆 NEW BEST SCORE!`
+            }
+            alert(message);
+            
+        },1100);
     }
 }
 
-function calculateScore() {
-    const matchPoints = GAME.stats.matches * 100;
-    const missPenalty = GAME.stats.misses * 10;
 
-    GAME.stats.score = Math.max(0, matchPoints - missPenalty);
-
-    GAME.scoreDisplay.textContent = GAME.stats.score;
-}
-
-function calculateAccuracy() {
-    const attempts = GAME.stats.matches + GAME.stats.misses;
-
-    if (attempts === 0) {
-        return 0;
-    }
-
-    return Math.round(
-        (GAME.stats.matches / attempts) * 100
-    );
-}
 // =======================================================================
 // INITIALIZATION
 
 function initializeGame() {
+    getPlayerName();
     shuffleCards();
     createBoard();
     resetDisplay();

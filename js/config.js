@@ -1,16 +1,22 @@
 const DIFFICULTIES = {
 
     "easy": {
+        id: "easy",
+        text: "Easy",
         rows: 4,
         columns: 4
     },
 
     "medium": {
+        id: "medium",
+        text: "Medium",
         rows: 5,
         columns: 4
     },
 
     "hard": {
+        id: "hard",
+        text: "Hard",
         rows: 6,
         columns: 6
     }
@@ -20,17 +26,17 @@ const DIFFICULTIES = {
 let CURRENT_DIFFICULTY = DIFFICULTIES.easy;
 
 
-const CONFIG = {
+let CONFIG = {
     board : CURRENT_DIFFICULTY,
 
     symbols : [
-        "🐶", "🐱", "🐭", "🦊", "🐻", "🐼", "🐨", "🐯",
-        "🦁", "🐮", "🐷", "🐸", "🐔", "🦆", "🦅", "🦉",
-        "🐺", "🐴", "🦄", "🐝", "🐛", "🦋", "🐌", "🐞", 
-        "🐜", "🦟", "🦗", "🕷️", "🦂", "🐢", "🐍", "🦎", 
-        "🐙", "🦑", "🦖", "🦕", "🦐", "🦀", "🐡", "🐬", 
+        "🐶", "🐱", "🐭", ,"🦋", "🐌", "🐞", "🐜", "🦟",
+        "🦂", "🐢", "🐍","🐸", "🐔", "🦆", "🦅", "🦉",
+        "🐪", "🐘", "🐝", "🐛", "🐯",  "🦗", "🕷️", "🦀",
+        "🦎", "🦁", "🐮", "🐷",  "🐺", "🐴", "🦄", "🐼", "🐨",
+        "🐙", "🦑", "🦖", "🦕", "🦐", "🐡", "🐬", 
         "🐳", "🐊", "🦒", "🦧", "🦩", "🦜", "🦚", "🐑", 
-        "🐪", "🐘", "🦘", "🦥", "🐿️", "🦨", "🐇", "🕊️"
+         "🦘", "🦥", "🐿️", "🦨", "🐇", "🕊️", "🦊", "🐻"
     ],
 
     ui : {
@@ -43,8 +49,16 @@ const CONFIG = {
 };
 
 function changeDifficulty(difficulty) {
-
-    CONFIG.board = difficulty;
+    if (difficulty.id == "easy") {
+        CURRENT_DIFFICULTY = DIFFICULTIES.easy;
+    }
+    else if (difficulty.id == "medium") {
+        CURRENT_DIFFICULTY = DIFFICULTIES.medium;
+    }
+    else if (difficulty.id == "hard") {
+        CURRENT_DIFFICULTY = DIFFICULTIES.hard;
+    }     
+    CONFIG.board = CURRENT_DIFFICULTY;
     restartGame();
 
 }

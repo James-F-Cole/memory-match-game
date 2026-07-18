@@ -17,3 +17,9 @@ function playSound(sound) {
         sound.play();
     }
 }
+
+function stopSound(sound) {
+    if (sound) {
+        sound.currentTime = 0;
+    }
+}

@@ -10,9 +10,13 @@
     <div class="container">
         <h1>Memory Match Game</h1>
         <div class="game-info" id="game-info">
+            
             <p>Moves: <span id="moves">0</span></p>
             <p>Time: <span id="timer">00:00</span></p>
+            <p>Difficulty: <span id="difficulty">Easy</span></p>
             <p>Score: <span id="score">0</span></p>
+            <p>Best Score: <span id="best-score">0</span></p>
+
         </div>
         <div class="game-board" id="game-board">
 
@@ -20,35 +24,51 @@
         <button id="restart-btn">Restart Game</button>
         <div class="difficulty-controls">
 
-        <button id="easy-btn">
-            Easy
-        </button>
+            <button id="easy-btn">
+                Easy
+            </button>
 
-        <button id="medium-btn">
-            Medium
-        </button>
+            <button id="medium-btn">
+                Medium
+            </button>
 
-        <button id="hard-btn">
-            Hard
-        </button>
+            <button id="hard-btn">
+                Hard
+            </button>
 
-</div>
+        </div>
+        <div class="leaderboard">
+
+            <h2>Leaderboard</h2>
+            <h3>Easy</h3>
+            <ol id="easy-leaderboard"></ol>
+            <h3>Medium</h3>
+            <ol id="medium-leaderboard"></ol>
+            <h3>Hard</h3>
+            <ol id="hard-leaderboard"></ol>
+
+        </div>
     </div>
-
+    <audio id="background-music" src="assets/audio/background.mp3" loop></audio>
+    <audio id="click-sound" src="assets/audio/click.mp3"></audio>
+    <audio id="flip-sound" src="assets/audio/flip.mp3"></audio>
     <audio id="match-sound" src="assets/audio/match.mp3"></audio>
     <audio id="mismatch-sound" src="assets/audio/mismatch.mp3"></audio>
-    <audio id="win-sound" src="assets/audio/win.mp3"></audio>
-    <audio id="flip-sound" src="assets/audio/flip.mp3"></audio>
-    <audio id="background-music" src="assets/audio/background.mp3" loop></audio>
-    <audio id="timer-sound" src="assets/audio/timer.mp3"></audio>
     <audio id="restart-sound" src="assets/audio/restart.mp3"></audio>
-    <audio id="click-sound" src="assets/audio/click.mp3"></audio>
+    <audio id="timer-sound" src="assets/audio/timer.mp3" loop></audio>
+    <audio id="win-sound" src="assets/audio/win.mp3"></audio>
+    
+    
+    
     <script src="js/config.js"></script>
     <script src="js/state.js"></script>
     <script src="js/board.js"></script>
     <script src="js/timer.js"></script>
+    <script src="js/score.js"></script>
     <script src="js/audio.js"></script>
+    <script src="js/storage.js"></script>
     <script src="js/ui.js"></script>
+    <script src="js/statistics.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>
