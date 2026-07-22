@@ -37,13 +37,13 @@ const GAME = {
     },
     modal: document.querySelector("#game-over-modal"),
     summary: document.querySelector("#game-summary"),
-    playAgainButton: document.querySelector("#play-again-btn"),
     playerInput: document.querySelector("#player-name"),
     playButton: document.querySelector("#play-btn"),
     leaderboardButton: document.querySelector("#leaderboard-btn"),
-    menuButton: document.querySelector("#menu-btn"),
-    resultsButton: document.querySelector("#results-btn"),
-    closeLeaderboardButton: document.querySelector("#close-leaderboard-btn")
+    closeLeaderboardButton: document.querySelector("#close-leaderboard-btn"),
+    playAgainButtons: document.querySelectorAll(".play-again-btn"),
+    menuButtons: document.querySelectorAll(".menu-btn"),
+    resultsButtons: document.querySelectorAll(".results-btn")
 }; 
 
 function startNewGame() {
@@ -79,11 +79,9 @@ function returnToMenu() {
 }
 
 function updateMenu() {
-    playSound(AUDIO.click);
     GAME.playerInput.value = STATE.playerName;
 }
 
-GAME.playAgainButton.addEventListener("click", playAgain)
 
 GAME.playButton.addEventListener("click", startNewGame)
 
@@ -91,9 +89,17 @@ GAME.leaderboardButton.addEventListener("click", openLeaderboard);
 
 GAME.closeLeaderboardButton.addEventListener("click", closeLeaderboard);
 
-GAME.resultsButton.addEventListener("click", openLeaderboard);
+GAME.playAgainButtons.forEach(button =>
+    button.addEventListener("click", playAgain)
+);
 
-GAME.menuButton.addEventListener("click", returnToMenu);
+GAME.resultsButtons.forEach(button =>
+    button.addEventListener("click", openLeaderboard)
+);
+
+GAME.menuButtons.forEach(button =>
+    button.addEventListener("click", returnToMenu)
+);
 // ==================================================================================
 // CARD LOGIC
 
@@ -222,10 +228,6 @@ function checkForWin() {
                 summary += `<p class="new-best">🏆 NEW BEST SCORE! </p>`
             }
             showGameOverModal(summary);
-            GAME.gameBoard.classList.add("celebrate");
-            setTimeout(() => {
-                 GAME.gameBoard.classList.remove("celebrate");
-            }, 2000);
             
         },1000);
         
