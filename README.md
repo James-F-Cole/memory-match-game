@@ -88,5 +88,5 @@ Although the current version provides a complete and playable Memory Match exper
 * All game logic, interface design, and implementation were developed specifically for this project.
 
 
-##Author##
+## Author
 **James F. Cole**
