@@ -7,48 +7,83 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Memory Match Game</h1>
-        <div class="game-info" id="game-info">
-            
-            <p>Moves: <span id="moves">0</span></p>
-            <p>Time: <span id="timer">00:00</span></p>
-            <p>Difficulty: <span id="difficulty">Easy</span></p>
-            <p>Score: <span id="score">0</span></p>
-            <p>Best Score: <span id="best-score">0</span></p>
-
+    <!--Main Menu--> 
+    <section id="menu-screen" class="screen">
+        <div class="menu-card">
+            <h1>🧠 Memory Match Game</h1>
+            <p class="welcome-text">Welcome! Test your memory by matching all the cards.</p>
+            <div class="menu-group">
+                <label for="player-name">Player Name</label>
+                <input id="player-name" type="text" maxlength="20" placeholder="Anonymous">
+            </div>
+            <div class="menu-group">
+                <p>Difficulty</p>
+                <div class="difficulty-controls">
+                    <button id="easy-btn">Easy</button>
+                    <button id="medium-btn">Medium</button>
+                    <button id="hard-btn">Hard</button>
+                </div>
+            </div>
+            <button id="play-btn">▶️ Play</button>
+            <button id="leaderboard-btn">🏆 Leaderboard</button>
         </div>
-        <div class="game-board" id="game-board">
+    </section>
 
+    <!--Game Screen-->
+    <section id="game-screen" class="hidden">
+        <div class="container">
+            <h1>🧠 Memory Match Game</h1>
+            <p class="current-player">Player: <span id="current-player">Anonymous</span></p>
+            <div class="game-info" id="game-info">
+                <p>Moves: <span id="moves">0</span></p>
+                <p>Time: <span id="timer">00:00</span></p>
+                <p>Difficulty: <span id="difficulty">Easy</span></p>
+                <p>Score: <span id="score">0</span></p>
+                <p>Best: <span id="best-score">0</span></p>
+            </div>
+            <div class="game-board" id="game-board">
+
+            </div>
+            <div class="board-controls">
+                <button id="play-again-btn">Play Again</button>
+                <button id="menu-btn">Main Menu</button>
+                <button id="results-btn">Leaderboard</button>
+            </div>
         </div>
-        <button id="restart-btn">Restart Game</button>
-        <div class="difficulty-controls">
+    </section>
 
-            <button id="easy-btn">
-                Easy
-            </button>
-
-            <button id="medium-btn">
-                Medium
-            </button>
-
-            <button id="hard-btn">
-                Hard
-            </button>
-
-        </div>
-        <div class="leaderboard">
-
-            <h2>Leaderboard</h2>
-            <h3>Easy</h3>
-            <ol id="easy-leaderboard"></ol>
-            <h3>Medium</h3>
-            <ol id="medium-leaderboard"></ol>
-            <h3>Hard</h3>
-            <ol id="hard-leaderboard"></ol>
-
+    <!--Leaderboard Modal-->
+    <div id="leaderboard-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🏆 Leaderboard</h2>
+            <div id="leaderboard-content">
+                <h3>Easy</h3>
+                <div id="easy-leaderboard"></div>
+                <h3>Medium</h3>
+                <div id="medium-leaderboard"></div>
+                <h3>Hard</h3>
+                <div id="hard-leaderboard"></div>
+            </div>
+            <button id="close-leaderboard-btn">Close</button>
         </div>
     </div>
+
+    <!--Game Over Modal-->
+        
+    <div id="game-over-modal" class="modal hidden">
+        <div class="modal-content">
+            <h2>🎉Congratulations</h2>
+            <div id="game-summary">
+
+            </div>
+            <div class="modal-controls">
+                <button id="play-again-btn">Play Again</button>
+                <button id="menu-btn">Main Menu</button>
+                <button id="results-btn">Leaderboard</button>
+            </div>
+        </div>
+    </div>
+
     <audio id="background-music" src="assets/audio/background.mp3" loop></audio>
     <audio id="click-sound" src="assets/audio/click.mp3"></audio>
     <audio id="flip-sound" src="assets/audio/flip.mp3"></audio>
@@ -69,6 +104,7 @@
     <script src="js/storage.js"></script>
     <script src="js/ui.js"></script>
     <script src="js/statistics.js"></script>
+    <script src="js/screen.js"></script>
     <script src="js/main.js"></script>
 </body>
 </html>

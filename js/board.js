@@ -11,6 +11,16 @@ function shuffleCards() {
 }
 
 function createBoard() {
+    const availableHeight = window.innerHeight * 0.60;
+    const availableWidth = window.innerWidth * 0.90;
+
+    const boardSize = Math.min(
+        CONFIG.board.boardwidth,
+        availableHeight,
+        availableWidth
+    );
+
+    GAME.gameBoard.style.setProperty("--board-size", boardSize + "px");
     GAME.gameBoard.style.setProperty("--column", CONFIG.board.columns)
     GAME.cardArray.forEach(cardValue => {
         const card = document.createElement("div");

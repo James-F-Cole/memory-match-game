@@ -4,21 +4,24 @@ const DIFFICULTIES = {
         id: "easy",
         text: "Easy",
         rows: 4,
-        columns: 4
+        columns: 4,
+        boardwidth: 460
     },
 
     "medium": {
         id: "medium",
         text: "Medium",
-        rows: 5,
-        columns: 4
+        rows: 4,
+        columns: 5,
+        boardwidth: 500
     },
 
     "hard": {
         id: "hard",
         text: "Hard",
         rows: 6,
-        columns: 6
+        columns: 6,
+        boardwidth: 600
     }
 
 };
@@ -30,7 +33,7 @@ let CONFIG = {
     board : CURRENT_DIFFICULTY,
 
     symbols : [
-        "🐶", "🐱", "🐭", ,"🦋", "🐌", "🐞", "🐜", "🦟",
+        "🐶", "🐱", "🐭", "🦋", "🐌", "🐞","🦟", "🐜",
         "🦂", "🐢", "🐍","🐸", "🐔", "🦆", "🦅", "🦉",
         "🐪", "🐘", "🐝", "🐛", "🐯",  "🦗", "🕷️", "🦀",
         "🦎", "🦁", "🐮", "🐷",  "🐺", "🐴", "🦄", "🐼", "🐨",
@@ -59,7 +62,7 @@ function changeDifficulty(difficulty) {
         CURRENT_DIFFICULTY = DIFFICULTIES.hard;
     }     
     CONFIG.board = CURRENT_DIFFICULTY;
-    restartGame();
+    updateDifficultyButtons();
 
 }
 

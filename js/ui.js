@@ -1,3 +1,7 @@
+function updatePlayerDisplay() {
+    GAME.currentPlayerDisplay.textContent = STATE.playerName;
+}
+
 function updateMovesDisplay() {
     GAME.movesDisplay.textContent = STATE.moves;
 }
@@ -25,6 +29,8 @@ function resetDisplay() {
     updateBestScoreDisplay();
     updateDifficultyDisplay();
     updateLeaderboard();
+    updateDifficultyButtons();
+    updatePlayerDisplay();
 
 }
 
@@ -39,10 +45,33 @@ function updateLeaderboard(){
 function renderLeaderboard(difficulty, players) {
 
     const list = document.querySelector(`#${difficulty}-leaderboard`);
+    if(players.length === 0) {
+        list.innerHTML = "<li>No scores yet.</li>"
+        return;
+    }
+
     list.innerHTML = "";
     players.forEach((player, index) => {
         const item = document.createElement("li");
-        item.textContent = `${index + 1}. ${player.player} - ${player.score}`;
+        const medal = index === 0 ? "🥇" : index === 1 ? "🥈" : index === 2 ? "🥉" : `${index + 1}.`
+        item.innerHTML = `<span>${medal} ${player.player}</span> --------- <strong>${player.score}</strong>`;
         list.appendChild(item);
     });
+}
+
+function updateDifficultyButtons() {
+    easyButton.classList.remove("active-difficulty");
+    mediumButton.classList.remove("active-difficulty");
+    hardButton.classList.remove("active-difficulty");
+    switch(CURRENT_DIFFICULTY.id) {
+        case "easy":
+            easyButton.classList.add("active-difficulty");
+            break;
+        case "medium":
+            mediumButton.classList.add("active-difficulty");
+            break;
+        case "hard":
+            hardButton.classList.add("active-difficulty");
+            break;
+    }
 }

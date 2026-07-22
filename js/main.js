@@ -1,25 +1,27 @@
 // ==================================================================================
 // DOM EVENTS
 
-const restartButton = document.querySelector("#restart-btn");
-restartButton.addEventListener("click", restartGame);
 const easyButton = document.querySelector("#easy-btn");
 const mediumButton = document.querySelector("#medium-btn");
 const hardButton = document.querySelector("#hard-btn");
 
 easyButton.addEventListener("click", () => {
+    playSound(AUDIO.click);
     changeDifficulty(DIFFICULTIES.easy);
 });
 
 mediumButton.addEventListener("click", () => {
+    playSound(AUDIO.click);
     changeDifficulty(DIFFICULTIES.medium);
 });
 
 hardButton.addEventListener("click", () => {
+    playSound(AUDIO.click);
     changeDifficulty(DIFFICULTIES.hard);
 });
 
 const GAME = {
+    currentPlayerDisplay: document.querySelector("#current-player"),
     movesDisplay: document.querySelector("#moves"),
     timerDisplay: document.querySelector("#timer"),
     difficultyDisplay: document.querySelector("#difficulty"),
@@ -32,8 +34,66 @@ const GAME = {
         misses: 0,
         totalPairs: getTotalPairs(),
         score: 0
-    }
+    },
+    modal: document.querySelector("#game-over-modal"),
+    summary: document.querySelector("#game-summary"),
+    playAgainButton: document.querySelector("#play-again-btn"),
+    playerInput: document.querySelector("#player-name"),
+    playButton: document.querySelector("#play-btn"),
+    leaderboardButton: document.querySelector("#leaderboard-btn"),
+    menuButton: document.querySelector("#menu-btn"),
+    resultsButton: document.querySelector("#results-btn"),
+    closeLeaderboardButton: document.querySelector("#close-leaderboard-btn")
 }; 
+
+function startNewGame() {
+    playSound(AUDIO.click);
+    STATE.playerName = GAME.playerInput.value.trim() || "Anonymous";
+    showGameScreen();
+    restartGame();
+}
+
+function openLeaderboard() {
+    playSound(AUDIO.click);
+    updateLeaderboard();
+    showLeaderboardModal();
+}
+
+function closeLeaderboard() {
+    playSound(AUDIO.click);
+    hideLeaderboardModal();
+}
+
+function playAgain() {
+    playSound(AUDIO.click);
+    hideGameOverModal();
+    restartGame();;
+}
+
+function returnToMenu() {
+    playSound(AUDIO.click);
+    hideGameOverModal();
+    resetGameState();
+    showMenuScreen();
+
+}
+
+function updateMenu() {
+    playSound(AUDIO.click);
+    GAME.playerInput.value = STATE.playerName;
+}
+
+GAME.playAgainButton.addEventListener("click", playAgain)
+
+GAME.playButton.addEventListener("click", startNewGame)
+
+GAME.leaderboardButton.addEventListener("click", openLeaderboard);
+
+GAME.closeLeaderboardButton.addEventListener("click", closeLeaderboard);
+
+GAME.resultsButton.addEventListener("click", openLeaderboard);
+
+GAME.menuButton.addEventListener("click", returnToMenu);
 // ==================================================================================
 // CARD LOGIC
 
@@ -76,7 +136,6 @@ function handleMatch() {
     
     STATE.matchedPairs++;
     incrementMatches();
-    calculateScore();
     setTimeout(() => {
         playSound(AUDIO.match);
         STATE.firstCard.classList.add("matched");
@@ -92,7 +151,6 @@ function handleMatch() {
 function handleMismatch() {
     
     incrementMisses();
-    calculateScore();
     setTimeout(() => {
         playSound(AUDIO.mismatch);
         STATE.firstCard.classList.remove("flipped");
@@ -118,11 +176,16 @@ function resetTurn() {
 
 function restartGame() {
     playSound(AUDIO.restart);
-    resetStats()
-    resetGameState();
-    GAME.gameBoard.innerHTML = "";
+    GAME.gameBoard.style.opacity = 0;
+    setTimeout(() => {
+        resetStats()
+        resetGameState();
+        GAME.gameBoard.innerHTML = "";
+        
+        initializeGame();
+        GAME.gameBoard.style.opacity = 1;
+    }, 300);
     
-    initializeGame();
 }
 // =======================================================================
 // UTILITY FUNCTIONS
@@ -148,21 +211,24 @@ function checkForWin() {
             playSound(AUDIO.win);
             updateBestScoreDisplay();
             updateLeaderboard();
-            let message = `
-            🎉Congratulations!
-            Player: ${STATE.playerName}
-            Difficulty: ${CURRENT_DIFFICULTY.text}
-            Moves: ${STATE.moves}
-            Time: ${GAME.timerDisplay.textContent}
-            Score: ${GAME.stats.score}`;
+            let summary = `
+            <p><strong>Player:</strong> ${STATE.playerName}</p>
+            <p><strong>Difficulty:</strong> ${CURRENT_DIFFICULTY.text}</p>
+            <p><strong>Moves:</strong> ${STATE.moves}</p>
+            <p><strong>Time:</strong> ${GAME.timerDisplay.textContent}</p>
+            <p><strong>Score:</strong> ${GAME.stats.score}</p>`;
 
             if (isNewBest) {
-                message += `\n
-                🏆 NEW BEST SCORE!`
+                summary += `<p class="new-best">🏆 NEW BEST SCORE! </p>`
             }
-            alert(message);
+            showGameOverModal(summary);
+            GAME.gameBoard.classList.add("celebrate");
+            setTimeout(() => {
+                 GAME.gameBoard.classList.remove("celebrate");
+            }, 2000);
             
-        },1100);
+        },1000);
+        
     }
 }
 
@@ -171,10 +237,9 @@ function checkForWin() {
 // INITIALIZATION
 
 function initializeGame() {
-    getPlayerName();
     shuffleCards();
     createBoard();
     resetDisplay();
 }
 
-initializeGame();
+showMenuScreen();

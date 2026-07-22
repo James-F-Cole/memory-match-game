@@ -12,4 +12,5 @@ function resetStats() {
     GAME.stats.matches = 0;
     GAME.stats.misses = 0;
     GAME.stats.score = 0;
+    GAME.stats.totalPairs = getTotalPairs();
 }
