@@ -2,7 +2,13 @@
 
 ## Project Overview
 
-This project is a browser-based Memory Match Game developed using **HTML5, CSS3, and JavaScript**. The objective is to match pairs of cards in the fewest moves and shortest time possible. The game includes multiple difficulty levels, score tracking, a timer, and a leaderboard that stores the best scores locally in the browser.
+This project is a browser-based **Memory Match Game** developed using **HTML5, CSS3, and JavaScript**. The objective is to match pairs of cards in the fewest moves and shortest time possible. The game includes multiple difficulty levels, score tracking, a timer, and a leaderboard system that stores player results locally in the browser.
+
+## Live Demo
+
+The game can be played directly in a web browser using the following link:
+
+**https://james-f-cole.github.io/memory-match-game/**
 
 ## Features
 
@@ -18,36 +24,42 @@ This project is a browser-based Memory Match Game developed using **HTML5, CSS3,
 ## Project Structure
 
 * `index.html` – Main application page
-* `css/` – Stylesheets for layout and responsiveness
+* `css/` – Stylesheets for layout, animations, and responsiveness
 * `js/` – Modular JavaScript files for game logic, UI, scoring, timer, storage, and statistics
-* `assets/` – Images and audio resources
+* `assets/` – Images and other game resources
 
-## How to Run
+## How to Run Locally
 
-1. Download or clone the project.
+1. Download or clone the project repository.
 2. Open the project folder.
 3. Launch `index.html` in any modern web browser.
-4. Enter a player name, choose a difficulty, and start playing.
+4. Enter a player name, select a difficulty level, and start playing.
 
 ## Challenges and Solutions
 
 ### 1. Responsive Layout
 
-**Challenge:** Larger game boards, especially the Hard difficulty, exceeded the screen height on smaller devices.
+**Challenge:** Larger game boards, especially the Hard difficulty mode, created layout issues on smaller screens.
 
-**Solution:** The layout was redesigned using responsive CSS Grid and Flexbox techniques. Card sizes and board dimensions adjust based on the screen size to keep the game playable across different devices.
+**Solution:** The interface was redesigned using responsive CSS Grid and Flexbox. Board sizes and card layouts adjust according to the selected difficulty and screen size.
 
 ### 2. Organizing JavaScript Code
 
-**Challenge:** As new features were added, the main JavaScript file became difficult to maintain.
+**Challenge:** As more features were added, managing all game logic in one JavaScript file became difficult.
 
-**Solution:** The code was refactored into separate modules responsible for the game board, timer, scoring, statistics, storage, UI updates, and configuration, making the project easier to read and extend.
+**Solution:** The code was separated into multiple modules responsible for specific tasks, including board generation, timer management, scoring, user interface updates, statistics, configuration, and storage.
 
-### 3. Saving Player Progress
+### 3. Saving Player Scores
 
-**Challenge:** Best scores and leaderboard data were lost whenever the page was refreshed.
+**Challenge:** Player scores and leaderboard information were lost after refreshing or closing the browser.
 
-**Solution:** Browser Local Storage was used to save high scores and leaderboard entries so they persist between game sessions.
+**Solution:** Browser Local Storage was implemented to save player names, scores, and game statistics, allowing information to persist between sessions.
+
+### 4. Managing Game State
+
+**Challenge:** Tracking card selections, matches, moves, and game progress became complex as new features were introduced.
+
+**Solution:** A centralized game state system was created to manage important values such as current difficulty, moves, timer status, and player statistics.
 
 ## Technologies Used
 
@@ -56,11 +68,25 @@ This project is a browser-based Memory Match Game developed using **HTML5, CSS3,
 * JavaScript (ES6)
 * Browser Local Storage
 
+## Future Enhancements
+
+Although the current version provides a complete and playable Memory Match experience, several improvements could be added in future versions:
+
+* **Two-player mode** – Allow two users to compete against each other with turn-based gameplay.
+* **Custom board sizes** – Support different grid layouts such as 4×4, 5×5, and 6×6 boards.
+* **Dark mode and theme customization** – Allow users to personalize the appearance of the game.
+* **Advanced scoring system** – Include additional factors such as accuracy, completion time, and move efficiency.
+* **Sound effects and background music** – Add audio feedback for gameplay actions.
+* **Player profiles and statistics** – Track long-term player performance and achievements.
+* **Online leaderboard** – Store scores in a database and allow global score comparisons.
+* **Progressive Web App (PWA) support** – Allow installation and offline gameplay.
+
 ## Credits
 
-* Card shuffle implemented using the Fisher–Yates Shuffle algorithm.
+* Card shuffling implemented using the **Fisher–Yates Shuffle algorithm**.
 * Icons and emojis used are standard Unicode characters.
-* All game logic, interface design, and implementation were developed for this project.
+* All game logic, interface design, and implementation were developed specifically for this project.
 
-##Author
+
+##Author##
 **James F. Cole**
